@@ -4,7 +4,7 @@ This is an R wrapper for the [Wikidata Query Service (WDQS)](https://www.mediawi
 
 __Author:__ Mikhail Popov (Wikimedia Foundation)<br/> 
 __License:__ [MIT](http://opensource.org/licenses/MIT)<br/>
-__Status:__ In development
+__Status:__ Active, early in development
 
 ## Example
 
@@ -37,10 +37,10 @@ For more example SPARQL queries, see [this page](https://www.wikidata.org/wiki/W
 
 ### Extracting and running example SPARQL queries
 
-This package does not rely on the [rvest](https://cran.r-project.org/package=rvest) and [urltools](https://cran.r-project.org/package=urltools) R packages for core functionality, but if the user has them installed then there is a function for scraping [the examples page](https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples) and extracting SPARQL queries.
+This package does not rely on the [rvest](https://cran.r-project.org/package=rvest) and [urltools](https://cran.r-project.org/package=urltools) R packages for core functionality, but if the user has them installed then there is a bonus function for scraping [the examples page](https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples) and extracting SPARQL queries.
 
 ```R
-install.packages(c("rvest", "urltools"))
+# install.packages(c("rvest", "urltools"))
 sparql_query <- scrape_example("Largest cities with female mayor")
 cat(sparql_query)
 ```

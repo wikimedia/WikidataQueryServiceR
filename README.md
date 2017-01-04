@@ -92,6 +92,19 @@ query_wikidata(sparql_query) # 10 rows were returned by WDQS
 |http://www.wikidata.org/entity/Q1563  |Havana    |http://www.wikidata.org/entity/Q6774124  |Marta Hernández Romero |
 |http://www.wikidata.org/entity/Q19660 |Bucharest |http://www.wikidata.org/entity/Q16593781 |Gabriela Fireaa        |
 
+If you are planning on scraping multiple queries, please provide them all as a single vector instead of `s`/`v`/`l`-`apply`ing `scrape_example` because behind the scenes the function scrapes the examples page once and then it can really quickly extract all the queries from a single cache.
+
+**Note** that since `query_wikidata` can also operate on a vector of queries, you can easily create chains:
+
+```R
+# Results will be a named list of data frames
+# the names being the original example names.
+library(magrittr)
+results <- c("Cats", "Horses", "Largest cities with female mayor") %>%
+  scrape_example %>%
+  query_wikidata
+```
+
 ## Installation
 
 This R package depends on [httr](https://cran.r-project.org/package=httr), [dplyr](https://cran.r-project.org/package=dplyr), and [jsonlite](https://cran.r-project.org/package=jsonlite) R packages (and their dependencies).

@@ -21,9 +21,9 @@
 #' @export
 scrape_example <- function(example_name, ...) {
   if (requireNamespace("rvest", quietly = TRUE) && requireNamespace("urltools", quietly = TRUE)) {
+    html <- rvest::html_session("https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples",
+                                httr::user_agent("https://github.com/bearloga/WikidataQueryServiceR"), ...)
     return(vapply(example_name, function(example_name) {
-      html <- rvest::html_session("https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples",
-                                  httr::user_agent("https://github.com/bearloga/WikidataQueryServiceR"), ...)
       try_it <- rvest::html_node(html, xpath = paste0("//span[contains(text(), '", example_name, "') and @class='mw-headline']/following::p[descendant::a]/a"))
       href <- rvest::html_attr(try_it, "href")
       if (is.na(href)) {

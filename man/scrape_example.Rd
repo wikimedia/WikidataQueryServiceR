@@ -7,7 +7,8 @@
 scrape_example(example_name, ...)
 }
 \arguments{
-\item{example_name}{The name of the example as it appears on \href{https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples}{this page}}
+\item{example_name}{The names of the examples as they appear on
+\href{https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples}{this page}}
 
 \item{...}{Additional \code{httr} configurations passed to \code{rvest}}
 }
@@ -16,13 +17,18 @@ The SPARQL query as a character vector.
 }
 \description{
 Scrapes \href{https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples}{SPARQL query service examples page}
-  for specified example.
+  for specified example(s).
+}
+\details{
+If you are planning on scraping multiple examples, please provide
+  all the names as a single vector.
 }
 \examples{
 \dontrun{
-sparql_query <- scrape_example("Cats")
-cat(sparql_query)
+sparql_query <- scrape_example(c("Cats", "Horses"))
 query_wikidata(sparql_query)
+# returns a named list with two data frames
+# one called "Cats" and one called "Horses"
 
 sparql_query <- scrape_example("Largest cities with female mayor")
 cat(sparql_query)

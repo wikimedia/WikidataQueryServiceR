@@ -2,12 +2,12 @@
 % Please edit documentation in R/query.R
 \name{query_wikidata}
 \alias{query_wikidata}
-\title{Send a SPARQL query to WDQS}
+\title{Send one or more SPARQL queries to WDQS}
 \usage{
 query_wikidata(sparql_query, format = c("simple", "smart"), ...)
 }
 \arguments{
-\item{sparql_query}{SPARQL query}
+\item{sparql_query}{SPARQL query (can be a vector of queries)}
 
 \item{format}{"simple" uses CSV and returns pure character data frame, while
 "smart" fetches JSON-formatted data and returns a data frame with datetime

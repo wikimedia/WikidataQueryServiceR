@@ -35,6 +35,8 @@ query_wikidata(sparql_query) # 10 rows were returned by WDQS
 
 For more example SPARQL queries, see [this page](https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples) on [Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page).
 
+`query_wikidata()` can accept multiple queries, returning a (potentially named) list of data frames. If the vector of SPARQL queries is named, the results will inherit those names.
+
 ### Extracting and running example SPARQL queries
 
 This package does not rely on the [rvest](https://cran.r-project.org/package=rvest) and [urltools](https://cran.r-project.org/package=urltools) R packages for core functionality, but if the user has them installed then there is a bonus function for scraping [the examples page](https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples) and extracting SPARQL queries.

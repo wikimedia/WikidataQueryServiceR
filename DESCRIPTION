@@ -1,0 +1,21 @@
+Package: WikidataQueryServiceR
+Title: API Client Library for 'Wikidata Query Service'
+Version: 0.0.1
+Authors@R: c(
+    person("Mikhail", "Popov", , "mikhail@wikimedia.org", c("aut", "cre")),
+    person("Wikimedia Foundation", role = "cph")
+    )
+Description: An API client for the Wikidata Query Service
+    <https://query.wikidata.org/>.
+Depends:
+    R (>= 3.3.2)
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+    httr,
+    dplyr,
+    jsonlite
+URL: https://github.com/bearloga/WikidataQueryServiceR
+BugReports: https://github.com/bearloga/WikidataQueryServiceR/issues
+RoxygenNote: 5.0.1

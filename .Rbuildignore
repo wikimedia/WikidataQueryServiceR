@@ -1,0 +1,8 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^man-roxygen$
+^data-raw$
+^cran-comments\.md$
+^README.Rmd
+^NEWS\.md$
+^CONDUCT\.md$

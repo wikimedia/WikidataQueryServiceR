@@ -45,7 +45,7 @@ sparql_query <- scrape_example("Largest cities with female mayor")
 cat(sparql_query)
 ```
 
-```
+```SPARQL
 # Largest cities with female mayor
 #added before 2016-10
 #TEMPLATE={"template":"Largest ?c with ?sex head of government","variables":{"?sex":{"query":" SELECT ?id WHERE { ?id wdt:P31 wd:Q48264 .  } "},"?c":{"query":"SELECT DISTINCT ?id WHERE {  ?c wdt:P31 ?id.  ?c p:P6 ?mayor. }"} } }

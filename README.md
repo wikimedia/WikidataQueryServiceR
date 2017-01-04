@@ -1,6 +1,6 @@
 # WikidataQueryServiceR
 
-This is an R wrapper for the [Wikidata Query Service (WDQS)](https://www.mediawiki.org/wiki/Wikidata_query_service) which provides a way for tools to query [Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page) via [SPARQL](https://en.wikipedia.org/wiki/SPARQL) (see the beta at https://query.wikidata.org/). It is written in and for R, and was inspired by Oliver Keyes's [WikipediR](https://github.com/Ironholds/WikipediR) and [WikidataR](https://github.com/Ironholds/WikidataR) packages.
+This is an R wrapper for the [Wikidata Query Service (WDQS)](https://www.mediawiki.org/wiki/Wikidata_query_service) which provides a way for tools to query [Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page) via [SPARQL](https://en.wikipedia.org/wiki/SPARQL) (see the beta at https://query.wikidata.org/). It is written in and for R, and was inspired by Oliver Keyes' [WikipediR](https://github.com/Ironholds/WikipediR) and [WikidataR](https://github.com/Ironholds/WikidataR) packages.
 
 __Author:__ Mikhail Popov (Wikimedia Foundation)<br/> 
 __License:__ [MIT](http://opensource.org/licenses/MIT)<br/>

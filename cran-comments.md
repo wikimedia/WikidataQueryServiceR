@@ -16,6 +16,12 @@ New submission
 
 Possibly mis-spelled words in DESCRIPTION:
   API (2:8, 9:17)
+  
+Found the following (possibly) invalid URLs:
+  URL: https://cran.r-project.org/package=WikidataQueryServiceR
+    From: README.md
+    Status: 404
+    Message: Not Found
 ```
 
 ## R-hub Builder results

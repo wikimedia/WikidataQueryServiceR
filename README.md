@@ -1,37 +1,41 @@
 # WikidataQueryServiceR
 
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/WikidataQueryServiceR)](https://cran.r-project.org/package=WikidataQueryServiceR)
+[![CRAN Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/WikidataQueryServiceR)](https://cran.r-project.org/package=WikidataQueryServiceR)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 This is an R wrapper for the [Wikidata Query Service (WDQS)](https://www.mediawiki.org/wiki/Wikidata_query_service) which provides a way for tools to query [Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page) via [SPARQL](https://en.wikipedia.org/wiki/SPARQL) (see the beta at https://query.wikidata.org/). It is written in and for R, and was inspired by Oliver Keyes' [WikipediR](https://github.com/Ironholds/WikipediR) and [WikidataR](https://github.com/Ironholds/WikidataR) packages.
 
 __Author:__ Mikhail Popov (Wikimedia Foundation)<br/> 
 __License:__ [MIT](http://opensource.org/licenses/MIT)<br/>
-__Status:__ Active, early in development
+__Status:__ Active
 
 ## Example
 
+In this example, we find an "instance of" ([P31](https://www.wikidata.org/wiki/Property:P31)) "film" ([Q11424](https://www.wikidata.org/wiki/Q11424)) that has the label "The Cabin in the Woods" ([Q45394](https://www.wikidata.org/wiki/Q45394)), get its genres ([P136](https://www.wikidata.org/wiki/Property:P136)), and then use [WDQS label service](https://www.mediawiki.org/wiki/Wikidata_query_service/User_Manual#Label_service) to return the genre labels.
+
 ```R
-# https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples#Cats
-sparql_query <- 'SELECT ?item ?itemLabel
-WHERE
-{
-  ?item wdt:P31 wd:Q146 .
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
-}
-LIMIT 10'
-query_wikidata(sparql_query) # 10 rows were returned by WDQS
+sparql_query <- 'PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX wikibase: <http://wikiba.se/ontology#>
+SELECT DISTINCT ?genre ?genreLabel WHERE {
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+  ?film wdt:P31 wd:Q11424.
+  ?film rdfs:label "The Cabin in the Woods"@en.
+  ?film wdt:P136 ?genre.
+}'
+WikidataQueryServiceR::query_wikidata(sparql_query)
+# 5 rows were returned by WDQS
 ```
 
-|item                                     |itemLabel    |
-|:----------------------------------------|:------------|
-|http://www.wikidata.org/entity/Q25471040 |Pixel        |
-|http://www.wikidata.org/entity/Q27190410 |Gladstone    |
-|http://www.wikidata.org/entity/Q27739753 |Sister Cream |
-|http://www.wikidata.org/entity/Q27744042 |Bob          |
-|http://www.wikidata.org/entity/Q27745002 |Musashi      |
-|http://www.wikidata.org/entity/Q27745006 |Leo          |
-|http://www.wikidata.org/entity/Q27745008 |Luca         |
-|http://www.wikidata.org/entity/Q27745009 |Seri         |
-|http://www.wikidata.org/entity/Q27745011 |Marble       |
-|http://www.wikidata.org/entity/Q28114532 |Q28114532    |
+|genre                                   |genreLabel           |
+|:---------------------------------------|:--------------------|
+|http://www.wikidata.org/entity/Q200092  |horror film          |
+|http://www.wikidata.org/entity/Q471839  |science fiction film |
+|http://www.wikidata.org/entity/Q224700  |comedy horror        |
+|http://www.wikidata.org/entity/Q859369  |comedy-drama         |
+|http://www.wikidata.org/entity/Q1342372 |monster film         |
 
 For more example SPARQL queries, see [this page](https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples) on [Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page).
 
@@ -43,8 +47,8 @@ This package does not rely on the [rvest](https://cran.r-project.org/package=rve
 
 ```R
 # install.packages(c("rvest", "urltools"))
-sparql_query <- scrape_example("Largest cities with female mayor")
-cat(sparql_query)
+sparql_query <- scrape_example(c("Cats", "Horses", "Largest cities with female mayor"))
+cat(sparql_query[["Largest cities with female mayor"]])
 ```
 
 ```SPARQL
@@ -75,8 +79,14 @@ ORDER BY DESC(?population)
 LIMIT 10
 ```
 
+Now we can run all three scraped SPARQL queries and get back three data.frames:
+
 ```R
-query_wikidata(sparql_query) # 10 rows were returned by WDQS
+results <- query_wikidata(sparql_query)
+# 113 rows were returned by WDQS
+# 6677 rows were returned by WDQS
+# 10 rows were returned by WDQS
+results$`Largest cities with female mayor`
 ```
 
 |city                                  |cityLabel |mayor                                    |mayorLabel             |
@@ -92,22 +102,13 @@ query_wikidata(sparql_query) # 10 rows were returned by WDQS
 |http://www.wikidata.org/entity/Q1563  |Havana    |http://www.wikidata.org/entity/Q6774124  |Marta Hernández Romero |
 |http://www.wikidata.org/entity/Q19660 |Bucharest |http://www.wikidata.org/entity/Q16593781 |Gabriela Fireaa        |
 
-If you are planning on scraping multiple queries, please provide them all as a single vector instead of `s`/`v`/`l`-`apply`ing `scrape_example` because behind the scenes the function scrapes the examples page once and then it can really quickly extract all the queries from a single cache.
-
-**Note** that since `query_wikidata` can also operate on a vector of queries, you can easily create chains:
-
-```R
-# Results will be a named list of data frames
-# the names being the original example names.
-library(magrittr)
-results <- c("Cats", "Horses", "Largest cities with female mayor") %>%
-  scrape_example %>%
-  query_wikidata
-```
-
 ## Installation
 
 This R package depends on [httr](https://cran.r-project.org/package=httr), [dplyr](https://cran.r-project.org/package=dplyr), and [jsonlite](https://cran.r-project.org/package=jsonlite) R packages (and their dependencies).
+
+```R
+install.packages("WikidataQueryServiceR")
+```
     
 To install the development version:
 

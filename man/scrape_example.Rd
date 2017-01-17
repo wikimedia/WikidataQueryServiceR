@@ -17,7 +17,7 @@ The SPARQL query as a character vector.
 }
 \description{
 Scrapes \href{https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples}{SPARQL query service examples page}
-  for specified example(s).
+  for specified example(s). Requires rvest and urltools packages.
 }
 \details{
 If you are planning on scraping multiple examples, please provide

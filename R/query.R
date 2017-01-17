@@ -5,7 +5,7 @@
 #'   "smart" fetches JSON-formatted data and returns a data frame with datetime
 #'   columns converted to POSIXlt
 #' @param ... Additional parameters to supply to \code{\link[httr]{GET}}
-#' @return A data frame of results from WDQS
+#' @return A data.frame
 #' @examples
 #' # Cats on Wikidata:
 #' sparql_query <- 'SELECT ?item ?itemLabel

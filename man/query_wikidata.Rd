@@ -16,7 +16,7 @@ columns converted to POSIXlt}
 \item{...}{Additional parameters to supply to \code{\link[httr]{GET}}}
 }
 \value{
-A data frame of results from WDQS
+A data.frame
 }
 \description{
 Makes a GET request to Wikidata Query Service SPARQL endpoint.

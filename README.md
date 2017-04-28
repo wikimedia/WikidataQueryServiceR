@@ -11,6 +11,19 @@ __Author:__ Mikhail Popov (Wikimedia Foundation)<br/>
 __License:__ [MIT](http://opensource.org/licenses/MIT)<br/>
 __Status:__ Active
 
+## Installation
+
+```R
+install.packages("WikidataQueryServiceR")
+```
+    
+To install the development version:
+
+```R
+# install.packages(c("devtools", "httr", "dplyr", "jsonlite"))
+devtools::install_github("bearloga/WikidataQueryServiceR")
+```
+
 ## Example
 
 In this example, we find an "instance of" ([P31](https://www.wikidata.org/wiki/Property:P31)) "film" ([Q11424](https://www.wikidata.org/wiki/Q11424)) that has the label "The Cabin in the Woods" ([Q45394](https://www.wikidata.org/wiki/Q45394)), get its genres ([P136](https://www.wikidata.org/wiki/Property:P136)), and then use [WDQS label service](https://www.mediawiki.org/wiki/Wikidata_query_service/User_Manual#Label_service) to return the genre labels.
@@ -101,21 +114,6 @@ results$`Largest cities with female mayor`
 |http://www.wikidata.org/entity/Q16555 |Houston   |http://www.wikidata.org/entity/Q213847   |Annise Parker          |
 |http://www.wikidata.org/entity/Q1563  |Havana    |http://www.wikidata.org/entity/Q6774124  |Marta Hernández Romero |
 |http://www.wikidata.org/entity/Q19660 |Bucharest |http://www.wikidata.org/entity/Q16593781 |Gabriela Fireaa        |
-
-## Installation
-
-This R package depends on [httr](https://cran.r-project.org/package=httr), [dplyr](https://cran.r-project.org/package=dplyr), and [jsonlite](https://cran.r-project.org/package=jsonlite) R packages (and their dependencies).
-
-```R
-install.packages("WikidataQueryServiceR")
-```
-    
-To install the development version:
-
-```R
-# install.packages(c("devtools", "httr", "dplyr", "jsonlite"))
-devtools::install_github("bearloga/WikidataQueryServiceR")
-```
 
 ## Additional Information
 

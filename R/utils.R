@@ -1,11 +1,11 @@
 #' @title Scrape an example SPARQL query from Wikidata
-#' @description Scrapes \href{https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples}{SPARQL query service examples page}
+#' @description Scrapes [SPARQL query service examples page](https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples)
 #'   for specified example(s). Requires rvest and urltools packages.
 #' @details If you are planning on scraping multiple examples, please provide
 #'   all the names as a single vector.
 #' @param example_name The names of the examples as they appear on
-#'   \href{https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples}{this page}
-#' @param ... Additional \code{httr} configurations passed to \code{rvest}
+#'   [this page](https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples)
+#' @param ... Additional `httr` configurations passed to `rvest`
 #' @return The SPARQL query as a character vector.
 #' @examples
 #' \dontrun{

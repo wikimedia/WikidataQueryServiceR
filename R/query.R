@@ -3,44 +3,23 @@
 #' @param sparql_query SPARQL query (can be a vector of queries)
 #' @param format "simple" uses CSV and returns pure character data frame, while
 #'   "smart" fetches JSON-formatted data and returns a data frame with datetime
-#'   columns converted to POSIXlt
-#' @param ... Additional parameters to supply to \code{\link[httr]{GET}}
-#' @return A data.frame
+#'   columns converted to `POSIXlt`
+#' @param ... Additional parameters to supply to [httr::GET()]
+#' @return A `data.frame`
 #' @examples
-#' # Cats on Wikidata:
-#' sparql_query <- 'SELECT ?item ?itemLabel
-#' WHERE
-#' {
-#'   ?item wdt:P31 wd:Q146 .
-#'   SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
-#' }
-#' LIMIT 10'
+#' # R's versions and release dates:
+#' sparql_query <- 'SELECT DISTINCT
+#'   ?softwareVersion ?publicationDate
+#' WHERE {
+#'   BIND(wd:Q206904 AS ?R)
+#'   ?R p:P348 [
+#'     ps:P348 ?softwareVersion;
+#'     pq:P577 ?publicationDate
+#'   ] .
+#' }'
 #' query_wikidata(sparql_query)
 #'
 #' \dontrun{
-#' sparql_query <- "#Recent Events
-#' SELECT ?event ?eventLabel ?date
-#' WHERE
-#' {
-#'   # find events
-#'   ?event wdt:P31/wdt:P279* wd:Q1190554.
-#'   # with a point in time or start date
-#'   OPTIONAL { ?event wdt:P585 ?date. }
-#'   OPTIONAL { ?event wdt:P580 ?date. }
-#'   # but at least one of those
-#'   FILTER(BOUND(?date) && DATATYPE(?date) = xsd:dateTime).
-#'   # not in the future, and not more than 31 days ago
-#'   BIND(NOW() - ?date AS ?distance).
-#'   FILTER(0 <= ?distance && ?distance < 31).
-#'   # and get a label as well
-#'   OPTIONAL {
-#'     ?event rdfs:label ?eventLabel.
-#'     FILTER(LANG(?eventLabel) = \"en\").
-#'   }
-#' }
-#' # limit to 10 results so we don't timeout
-#' LIMIT 10"
-#'
 #' # "smart" format converts all datetime columns to POSIXlt
 #' query_wikidata(sparql_query, format = "smart")
 #' }
@@ -77,9 +56,8 @@ query_wikidata <- function(sparql_query, format = c("simple", "smart"), ...) {
       )
       httr::stop_for_status(response)
       if (httr::http_type(response) == "application/sparql-results+json") {
-        temp <- jsonlite::read_json(httr::content(response, as = "text", encoding = "UTF-8"))
+        temp <- jsonlite::fromJSON(httr::content(response, as = "text", encoding = "UTF-8"), simplifyVector = FALSE)
       }
-      httr::stop_for_status(response)
       if (length(temp$results$bindings) > 0) {
         df <- as.data.frame(dplyr::bind_rows(lapply(temp$results$bindings, function(x) {
           return(lapply(x, function(y) { return(y$value) }))

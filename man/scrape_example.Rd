@@ -17,11 +17,11 @@ The SPARQL query as a character vector.
 }
 \description{
 Scrapes \href{https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples}{SPARQL query service examples page}
-  for specified example(s). Requires rvest and urltools packages.
+for specified example(s). Requires rvest and urltools packages.
 }
 \details{
 If you are planning on scraping multiple examples, please provide
-  all the names as a single vector.
+all the names as a single vector.
 }
 \examples{
 \dontrun{
@@ -35,4 +35,3 @@ cat(sparql_query)
 query_wikidata(sparql_query)
 }
 }
-

@@ -3,7 +3,7 @@
 #' @param sparql_query SPARQL query (can be a vector of queries)
 #' @param format "simple" uses CSV and returns pure character data frame, while
 #'   "smart" fetches JSON-formatted data and returns a data frame with datetime
-#'   columns converted to `POSIXlt`
+#'   columns converted to `POSIXct`
 #' @param ... Additional parameters to supply to [httr::GET()]
 #' @return A `data.frame`
 #' @examples
@@ -20,7 +20,7 @@
 #' query_wikidata(sparql_query)
 #'
 #' \dontrun{
-#' # "smart" format converts all datetime columns to POSIXlt
+#' # "smart" format converts all datetime columns to POSIXct
 #' query_wikidata(sparql_query, format = "smart")
 #' }
 #' @export
@@ -71,7 +71,7 @@ query_wikidata <- function(sparql_query, format = c("simple", "smart"), ...) {
         }, FALSE)
         if (any(datetime_cols)) {
           for (datetime_col in which(datetime_cols)) {
-            df[[datetime_col]] <- as.POSIXlt(df[[datetime_col]], format = "%Y-%m-%dT%H:%M:%SZ", tz = "GMT")
+            df[[datetime_col]] <- as.POSIXct(df[[datetime_col]], format = "%Y-%m-%dT%H:%M:%SZ", tz = "GMT")
           }
         }
         message(nrow(df), " rows were returned by WDQS")

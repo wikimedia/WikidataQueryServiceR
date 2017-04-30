@@ -11,7 +11,7 @@ query_wikidata(sparql_query, format = c("simple", "smart"), ...)
 
 \item{format}{"simple" uses CSV and returns pure character data frame, while
 "smart" fetches JSON-formatted data and returns a data frame with datetime
-columns converted to \code{POSIXlt}}
+columns converted to \code{POSIXct}}
 
 \item{...}{Additional parameters to supply to \code{\link[httr:GET]{httr::GET()}}}
 }
@@ -35,7 +35,7 @@ WHERE {
 query_wikidata(sparql_query)
 
 \dontrun{
-# "smart" format converts all datetime columns to POSIXlt
+# "smart" format converts all datetime columns to POSIXct
 query_wikidata(sparql_query, format = "smart")
 }
 }

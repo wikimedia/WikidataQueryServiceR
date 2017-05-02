@@ -20,5 +20,5 @@
 #' - [WDQS User Manual](https://www.mediawiki.org/wiki/Wikidata_query_service/User_Manual)
 #' @aliases WDQS
 #' @docType package
-#' @name WDQS-package
+#' @name WDQSR-package
 NULL

@@ -13,13 +13,13 @@ query_wikidata(sparql_query, format = c("simple", "smart"), ...)
 "smart" fetches JSON-formatted data and returns a data frame with datetime
 columns converted to \code{POSIXct}}
 
-\item{...}{Additional parameters to supply to \code{\link[httr:GET]{httr::GET()}}}
+\item{...}{Additional parameters to supply to \link[httr:POST]{httr::POST}}
 }
 \value{
 A \code{data.frame}
 }
 \description{
-Makes a GET request to Wikidata Query Service SPARQL endpoint.
+Makes a POST request to Wikidata Query Service SPARQL endpoint.
 }
 \examples{
 # R's versions and release dates:
@@ -38,4 +38,7 @@ query_wikidata(sparql_query)
 # "smart" format converts all datetime columns to POSIXct
 query_wikidata(sparql_query, format = "smart")
 }
+}
+\seealso{
+\link{get_example}
 }

@@ -29,5 +29,7 @@ for Wikidata
 by Navino Evans
 \item \emph{\href{http://www.learningsparql.com/}{Learning SPARQL}} by Bob DuCharme
 \item \href{https://www.mediawiki.org/wiki/Wikidata_query_service/User_Manual}{WDQS User Manual}
+\item \href{https://github.com/bearloga/wmf/blob/master/presentations/talks/Cascadia\%20R\%20Conference\%202017/presentation.md#wikidata-query-service-wdqs}{Quick intro to WDQS & SPARQL}
+from \href{https://github.com/bearloga/wmf/tree/master/presentations/talks/Cascadia\%20R\%20Conference\%202017}{my Cascadia R Conference 2017 talk}
 }
 }

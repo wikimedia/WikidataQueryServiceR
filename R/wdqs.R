@@ -18,6 +18,8 @@
 #'   by Navino Evans
 #' - _[Learning SPARQL](http://www.learningsparql.com/)_ by Bob DuCharme
 #' - [WDQS User Manual](https://www.mediawiki.org/wiki/Wikidata_query_service/User_Manual)
+#' - [Quick intro to WDQS & SPARQL](https://github.com/bearloga/wmf/blob/master/presentations/talks/Cascadia\%20R\%20Conference\%202017/presentation.md#wikidata-query-service-wdqs)
+#'   from [my Cascadia R Conference 2017 talk](https://github.com/bearloga/wmf/tree/master/presentations/talks/Cascadia\%20R\%20Conference\%202017)
 #' @aliases WDQS
 #' @docType package
 #' @name WDQSR-package

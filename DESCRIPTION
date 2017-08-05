@@ -1,7 +1,7 @@
 Package: WikidataQueryServiceR
 Title: API Client Library for 'Wikidata Query Service'
-Version: 0.2.0.9000
-Date: 2017-04-28
+Version: 1.0.0
+Date: 2017-08-05
 Authors@R: c(
     person("Mikhail", "Popov", email = "mikhail@wikimedia.org",
            role = c("aut", "cre"), comment = "@bearloga on Twitter"),
@@ -16,6 +16,9 @@ Imports:
     dplyr (>= 0.5.0),
     jsonlite (>= 1.2),
     WikipediR (>= 1.5.0)
+Suggests:
+    testthat,
+    lintr
 URL: https://github.com/bearloga/WikidataQueryServiceR
 BugReports: https://github.com/bearloga/WikidataQueryServiceR/issues
 License: MIT + file LICENSE

@@ -24,8 +24,8 @@ install.packages("WikidataQueryServiceR")
 To install the development version:
 
 ``` r
-# install.packages(c("devtools", "httr", "dplyr", "jsonlite"))
-devtools::install_github("bearloga/WikidataQueryServiceR")
+# install.packages("remotes")
+remotes::install_github("bearloga/WikidataQueryServiceR")
 ```
 
 Usage

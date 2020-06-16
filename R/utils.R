@@ -26,13 +26,20 @@ get_example <- function(example_name) {
     page_name = "Wikidata:SPARQL query service/queries/examples",
     as_wikitext = TRUE
   )
-  wiki <- strsplit(content$parse$wikitext$`*`, "\n")[[1]]
-  wiki <- wiki[wiki != ""]
-  return(vapply(example_name, function(example_name) {
-    heading_line <- which(grepl(paste0("^===\\s?", example_name, "\\s?===$"), wiki, fixed = FALSE))
-    start_line <- which(grepl("{{SPARQL", wiki[(heading_line + 1):length(wiki)], fixed = TRUE))[1]
-    end_line <- which(grepl("}}", wiki[(heading_line + start_line + 1):length(wiki)], fixed = TRUE))[1]
-    query <- paste0(wiki[(heading_line + start_line):(heading_line + start_line + end_line - 1)], collapse = "\n")
+  wikitext <- strsplit(content$parse$wikitext$`*`, "\n")[[1]]
+  wikitext <- wikitext[wikitext != ""]
+  examples <- purrr::map(example_name, function(example_name) {
+    regex <- paste0(
+      "^={2,}\\s?(<translate><!--T:[0-9]+-->)?\\s?",
+      rex::escape(example_name),
+      "\\s?(</translate>)?\\s?={2,}$"
+    )
+    heading_line <- which(grepl(regex, wikitext, fixed = FALSE))
+    start_line <- which(grepl("{{SPARQL", wikitext[(heading_line + 1):length(wikitext)], fixed = TRUE))[1]
+    end_line <- which(grepl("}}", wikitext[(heading_line + start_line + 1):length(wikitext)], fixed = TRUE))[1]
+    query <- paste0(wikitext[(heading_line + start_line):(heading_line + start_line + end_line - 1)], collapse = "\n")
     return(sub("^\\s*\\{\\{SPARQL2?\\n?\\|query\\=", "", query))
-  }, ""))
+  })
+  names(examples) <- example_name
+  return(examples)
 }

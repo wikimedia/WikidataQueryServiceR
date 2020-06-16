@@ -17,7 +17,7 @@ library(printr)
 [![CRAN Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/WikidataQueryServiceR)](https://cran.r-project.org/package=WikidataQueryServiceR)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-This is an R wrapper for the [Wikidata Query Service (WDQS)](https://www.mediawiki.org/wiki/Wikidata_query_service) which provides a way for tools to query [Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page) via [SPARQL](https://en.wikipedia.org/wiki/SPARQL) (see the beta at https://query.wikidata.org/). It is written in and for R, and was inspired by Oliver Keyes' [WikipediR](https://github.com/Ironholds/WikipediR) and [WikidataR](https://github.com/Ironholds/WikidataR) packages.
+This is an R wrapper for the [Wikidata Query Service (WDQS)](https://www.mediawiki.org/wiki/Wikidata_query_service) which provides a way for tools to query [Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page) via [SPARQL](https://en.wikipedia.org/wiki/SPARQL) (see the beta at https://query.wikidata.org/). It is written in and for R, and was inspired by Os Keyes' [WikipediR](https://github.com/Ironholds/WikipediR) and [WikidataR](https://github.com/Ironholds/WikidataR) packages.
 
 __Author:__ Mikhail Popov (Wikimedia Foundation)<br/> 
 __License:__ [MIT](http://opensource.org/licenses/MIT)<br/>
@@ -32,8 +32,8 @@ install.packages("WikidataQueryServiceR")
 To install the development version:
 
 ```R
-# install.packages(c("devtools", "httr", "dplyr", "jsonlite"))
-devtools::install_github("bearloga/WikidataQueryServiceR")
+# install.packages("remotes")
+remotes::install_github("bearloga/WikidataQueryServiceR")
 ```
 
 ## Usage
@@ -68,20 +68,21 @@ For more example SPARQL queries, see [this page](https://www.wikidata.org/wiki/W
 The package provides a [WikipediR](https://github.com/Ironholds/WikipediR/)-based function for getting SPARQL queries from the [WDQS examples page](https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples).
 
 ```{r get_examples, cache=TRUE}
-sparql_query <- get_example(c("Cats", "Horses", "Largest cities with female mayor"))
+sparql_query <- get_example(c("Cats", "How many states this US state borders"))
 ```
 ```{r, eval=FALSE}
-sparql_query[["Largest cities with female mayor"]]
+sparql_query[["How many states this US state borders"]]
 ```
 ```{r, echo=FALSE, results='asis'}
-cat("```SPARQL\n", sparql_query[["Largest cities with female mayor"]], "\n```")
+cat("```SPARQL\n", sparql_query[["How many states this US state borders"]], "\n```")
 ```
 
-Now we can run all three extracted SPARQL queries and get back three data.frames:
+Now we can run all extracted SPARQL queries:
 
 ```{r run_examples, cache=TRUE, dependson='get_examples'}
 results <- query_wikidata(sparql_query)
-results$`Largest cities with female mayor`[, c("cityLabel", "mayorLabel")]
+lapply(results, dim)
+head(results$`How many states this US state borders`)
 ```
 
 ## Links for learning SPARQL

@@ -4,7 +4,7 @@
 \alias{query_wikidata}
 \title{Send one or more SPARQL queries to WDQS}
 \usage{
-query_wikidata(sparql_query, format = c("simple", "smart"), ...)
+query_wikidata(sparql_query, format = c("simple", "smart"))
 }
 \arguments{
 \item{sparql_query}{SPARQL query (can be a vector of queries)}
@@ -12,18 +12,28 @@ query_wikidata(sparql_query, format = c("simple", "smart"), ...)
 \item{format}{"simple" uses CSV and returns pure character data frame, while
 "smart" fetches JSON-formatted data and returns a data frame with datetime
 columns converted to \code{POSIXct}}
-
-\item{...}{Additional parameters to supply to \link[httr:POST]{httr::POST}}
 }
 \value{
-A \code{data.frame}
+A tibble data frame
 }
 \description{
 Makes a POST request to Wikidata Query Service SPARQL endpoint.
 }
+\section{Query limits}{
+
+There is a hard query deadline configured which is set to 60 seconds. There
+are also following limits:
+\itemize{
+\item One client (user agent + IP) is allowed 60 seconds of processing time each
+60 seconds
+\item One client is allowed 30 error queries per minute
+See \href{https://www.mediawiki.org/wiki/Wikidata_Query_Service/User_Manual#Query_limits}{query limits section}
+in the WDQS user manual for more information.
+}
+}
+
 \examples{
-# R's versions and release dates:
-sparql_query <- 'SELECT DISTINCT
+sparql_query <- "SELECT
   ?softwareVersion ?publicationDate
 WHERE {
   BIND(wd:Q206904 AS ?R)
@@ -31,11 +41,10 @@ WHERE {
     ps:P348 ?softwareVersion;
     pq:P577 ?publicationDate
   ] .
-}'
+}"
 query_wikidata(sparql_query)
 
 \dontrun{
-# "smart" format converts all datetime columns to POSIXct
 query_wikidata(sparql_query, format = "smart")
 }
 }

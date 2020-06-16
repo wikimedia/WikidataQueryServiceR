@@ -1,5 +1,5 @@
 linters: with_defaults(line_length_linter(120), object_usage_linter = NULL, closed_curly_linter = NULL, open_curly_linter = NULL, spaces_left_parentheses_linter = NULL, camel_case_linter = NULL)
-exclusions: list()
+exclusions: list("R/zzz.R", "R/WikidataQueryServiceR-package.R")
 exclude: "# Exclude Linting"
 exclude_start: "# Begin Exclude Linting"
 exclude_end: "# End Exclude Linting"

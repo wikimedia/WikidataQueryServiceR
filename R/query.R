@@ -4,11 +4,9 @@
 #' @param format "simple" uses CSV and returns pure character data frame, while
 #'   "smart" fetches JSON-formatted data and returns a data frame with datetime
 #'   columns converted to `POSIXct`
-#' @param ... Additional parameters to supply to [httr::POST]
-#' @return A `data.frame`
+#' @return A tibble data frame
 #' @examples
-#' # R's versions and release dates:
-#' sparql_query <- 'SELECT DISTINCT
+#' sparql_query <- "SELECT
 #'   ?softwareVersion ?publicationDate
 #' WHERE {
 #'   BIND(wd:Q206904 AS ?R)
@@ -16,73 +14,72 @@
 #'     ps:P348 ?softwareVersion;
 #'     pq:P577 ?publicationDate
 #'   ] .
-#' }'
+#' }"
 #' query_wikidata(sparql_query)
 #'
 #' \dontrun{
-#' # "smart" format converts all datetime columns to POSIXct
 #' query_wikidata(sparql_query, format = "smart")
 #' }
+#' @section Query limits:
+#' There is a hard query deadline configured which is set to 60 seconds. There
+#' are also following limits:
+#' - One client (user agent + IP) is allowed 60 seconds of processing time each
+#'   60 seconds
+#' - One client is allowed 30 error queries per minute
+#' See [query limits section](https://www.mediawiki.org/wiki/Wikidata_Query_Service/User_Manual#Query_limits)
+#' in the WDQS user manual for more information.
 #' @seealso [get_example]
 #' @export
-query_wikidata <- function(sparql_query, format = c("simple", "smart"), ...) {
-  if (!format[1] %in% c("simple", "smart")) {
+query_wikidata <- function(sparql_query, format = c("simple", "smart")) {
+  format <- format[1]
+  if (!format %in% c("simple", "smart")) {
     stop("`format` must be either \"simple\" or \"smart\"")
   }
   output <- lapply(sparql_query, function(sparql_query) {
-    if (format[1] == "simple") {
-      response <- httr::POST(
-        url = "https://query.wikidata.org/sparql",
-        query = list(query = sparql_query),
-        httr::add_headers(Accept = "text/csv"),
-        httr::user_agent("https://github.com/bearloga/WikidataQueryServiceR"),
-        ...
-      )
+    rate_limited_query <- wdqs_requester()
+    if (format == "simple") {
+      response <- rate_limited_query(sparql_query, httr::add_headers(Accept = "text/csv"))
       httr::stop_for_status(response)
       if (httr::http_type(response) == "text/csv") {
-        con <- textConnection(httr::content(response, as = "text", encoding = "UTF-8"))
-        df <- utils::read.csv(con, header = TRUE, stringsAsFactors = FALSE)
-        message(nrow(df), " rows were returned by WDQS")
-        return(df)
+        content <- httr::content(response, as = "text", encoding = "UTF-8")
+        return(readr::read_csv(content))
       } else {
         stop("returned response is not formatted as a CSV")
       }
     } else {
-      response <- httr::GET(
-        url = "https://query.wikidata.org/sparql",
-        query = list(query = sparql_query),
-        format = "json",
-        httr::user_agent("https://github.com/bearloga/WikidataQueryServiceR"),
-        ...
-      )
+      response <- rate_limited_query(sparql_query, httr::add_headers(Accept = "application/sparql-results+json"))
       httr::stop_for_status(response)
       if (httr::http_type(response) == "application/sparql-results+json") {
-        temp <- jsonlite::fromJSON(httr::content(response, as = "text", encoding = "UTF-8"), simplifyVector = FALSE)
+        content <- httr::content(response, as = "text", encoding = "UTF-8")
+        temp <- jsonlite::fromJSON(content, simplifyVector = FALSE)
       }
       if (length(temp$results$bindings) > 0) {
-        df <- as.data.frame(dplyr::bind_rows(lapply(temp$results$bindings, function(x) {
-          return(lapply(x, function(y) { return(y$value) }))
-        })))
-        datetime_cols <- vapply(temp$results$bindings[[1]], function(x) {
-          if ("datatype" %in% names(x)) {
-            return(x$datatype == "http://www.w3.org/2001/XMLSchema#dateTime")
+        data_frame <- purrr::map_dfr(temp$results$bindings, function(binding) {
+          return(purrr::map_chr(binding, ~ .x$value))
+        })
+        datetime_columns <- purrr::map_lgl(temp$results$bindings[[1]], function(binding) {
+          if ("datatype" %in% names(binding)) {
+            return(binding[["datatype"]] == "http://www.w3.org/2001/XMLSchema#dateTime")
           } else {
             return(FALSE)
           }
-        }, FALSE)
-        if (any(datetime_cols)) {
-          for (datetime_col in which(datetime_cols)) {
-            df[[datetime_col]] <- as.POSIXct(df[[datetime_col]], format = "%Y-%m-%dT%H:%M:%SZ", tz = "GMT")
-          }
-        }
-        message(nrow(df), " rows were returned by WDQS")
-        return(df)
+        })
+        data_frame <- dplyr::mutate_if(
+          .tbl = data_frame,
+          .predicate = datetime_columns,
+          .funs = as.POSIXct,
+          format = "%Y-%m-%dT%H:%M:%SZ", tz = "GMT"
+        )
       } else {
-        message("0 rows were returned by WDQS")
-        return(data.frame(matrix(character(), nrow = 0, ncol = length(temp$head$vars),
-                                 dimnames = list(c(), unlist(temp$head$vars))),
-                          stringsAsFactors = FALSE))
+        data_frame <- dplyr::as_tibble(
+          matrix(
+            character(),
+            nrow = 0, ncol = length(temp$head$vars),
+            dimnames = list(c(), unlist(temp$head$vars))
+          )
+        )
       }
+      return(data_frame)
     }
   })
   if (length(output) == 1) {

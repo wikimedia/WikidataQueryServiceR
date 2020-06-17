@@ -42,7 +42,7 @@ To install the development version:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("bearloga/WikidataQueryServiceR")
+remotes::install_github("bearloga/WikidataQueryServiceR@main")
 ```
 
 ## Usage

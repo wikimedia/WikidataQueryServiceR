@@ -1,7 +1,7 @@
 Package: WikidataQueryServiceR
 Title: API Client Library for 'Wikidata Query Service'
 Version: 1.0.0
-Date: 2020-06-16
+Date: 2020-07-27
 Authors@R: c(
     person("Mikhail", "Popov", email = "mikhail@wikimedia.org",
            role = c("aut", "cre"), comment = "@bearloga on Twitter"),
@@ -23,10 +23,10 @@ Imports:
 Suggests:
     testthat (>= 2.3.0),
     lintr (>= 2.0.1)
-URL: https://github.com/bearloga/WikidataQueryServiceR
-BugReports: https://github.com/bearloga/WikidataQueryServiceR/issues
+URL: https://github.com/wikimedia/WikidataQueryServiceR
+BugReports: https://github.com/wikimedia/WikidataQueryServiceR/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1

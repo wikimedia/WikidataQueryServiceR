@@ -42,7 +42,7 @@ To install the development version:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("bearloga/WikidataQueryServiceR@main")
+remotes::install_github("wikimedia/WikidataQueryServiceR@main")
 ```
 
 ## Usage
@@ -110,7 +110,7 @@ sparql_query[["How many states this US state borders"]]
 ```
 
 ``` sparql
- #added before 2016-10
+ 
 SELECT ?state ?stateLabel ?borders
 WHERE
 {

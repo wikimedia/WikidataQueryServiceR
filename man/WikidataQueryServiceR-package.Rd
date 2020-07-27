@@ -37,8 +37,8 @@ from \href{https://github.com/bearloga/wmf/tree/master/presentations/talks/Casca
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/bearloga/WikidataQueryServiceR}
-  \item Report bugs at \url{https://github.com/bearloga/WikidataQueryServiceR/issues}
+  \item \url{https://github.com/wikimedia/WikidataQueryServiceR}
+  \item Report bugs at \url{https://github.com/wikimedia/WikidataQueryServiceR/issues}
 }
 
 }

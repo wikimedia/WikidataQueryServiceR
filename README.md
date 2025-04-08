@@ -12,7 +12,7 @@ WikidataQueryServiceR
 
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
-developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+developed.](http://www.repostatus.org/badges/latest/inactive.svg)](http://www.repostatus.org/#inactive)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/WikidataQueryServiceR)](https://cran.r-project.org/package=WikidataQueryServiceR)
 [![CRAN Total
 Downloads](https://cranlogs.r-pkg.org/badges/grand-total/WikidataQueryServiceR)](https://cran.r-project.org/package=WikidataQueryServiceR)
